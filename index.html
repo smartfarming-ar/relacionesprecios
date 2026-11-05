@@ -127,32 +127,50 @@ select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);
 .mpct b.pos{color:var(--rojo3)}
 .mpct b.neg{color:var(--verde3)}
 
-#slide{position:fixed;left:-10000px;top:0;width:1280px;height:720px;background:#fff;box-sizing:border-box;
-  padding:26px 36px;font:14px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);display:flex;flex-direction:column}
-#slide .shead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-#slide .sbrand{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
-#slide h1{font-size:25px;margin:2px 0 3px;font-weight:800}
-#slide .ssub{color:var(--muted);font-size:14px;margin-bottom:14px}
-#slide .scols{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;flex:1;align-content:center}
-#slide .scol{min-width:0;display:flex;flex-direction:column}
-#slide .srows{flex:1;display:flex;flex-direction:column;justify-content:center}
-#slide .schead{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--accent);margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid var(--accent-soft)}
-#slide .schead .ico{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
-#slide .schead .ico svg{width:14px;height:14px}
-#slide .srow{border-radius:10px;padding:9px 12px;margin-bottom:9px;width:fit-content;max-width:100%}
-#slide .srow .snom{font-weight:700;font-size:14.5px;line-height:1.25}
-#slide .srow .sqty{color:var(--muted);font-size:11.5px;margin-bottom:4px}
-#slide .srow .sval{font-weight:800;font-size:19px}
-#slide .srow .sval span{font-weight:600;font-size:11.5px;color:var(--muted)}
-#slide .srow.k3{background:var(--rojo1)}
-#slide .srow.k2{background:#f6c9ba}
-#slide .srow.k1{background:#fbe6de}
-#slide .srow.k0{background:#f0efe9}
-#slide .srow.kn{background:#f0efe9}
-#slide .srow.j1{background:#e8f3e2}
-#slide .srow.j2{background:#d7ecce}
-#slide .srow.j3{background:var(--verde1)}
-#slide .sfoot{position:absolute;bottom:26px;left:40px;right:40px;display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted)}
+#slide{position:fixed;left:-10000px;top:0;width:1600px;height:900px;background:#fff;box-sizing:border-box;
+  padding:30px 40px 56px;font:14px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);display:flex;flex-direction:column}
+#slide .shead{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:650;margin-bottom:6px}
+#slide .shead .pipe{color:var(--line)}
+#slide h1{font-size:30px;margin:0 0 5px;font-weight:800;letter-spacing:-.01em}
+#slide h1 b{color:var(--accent)}
+#slide .ssub{color:var(--muted);font-size:14.5px;margin-bottom:12px}
+#slide .smeta{display:flex;align-items:center;flex-wrap:wrap;gap:10px 22px;margin-bottom:16px}
+#slide .srefpill{display:flex;align-items:center;gap:8px;background:var(--accent-soft);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--accent);font-weight:650}
+#slide .srefpill b{color:var(--ink);font-weight:750}
+#slide .slegend{color:var(--muted);font-size:12px}
+#slide .s2cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;flex:1;min-height:0}
+#slide .shalf{min-width:0;min-height:0;display:flex;flex-direction:column}
+#slide .shtitle{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:7px}
+#slide .shpanel{position:relative;flex:1;min-height:0;border-radius:16px;padding:12px 16px 14px;overflow:hidden;
+  background:linear-gradient(90deg,#bfe3b0 0%,#dcefd4 30%,#eef5ea 46%,#f6f1ea 54%,#fbe2d8 70%,#f1b7a4 100%)}
+#slide .shaxis{margin-bottom:6px}
+#slide .shaxLbl{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:3px}
+#slide .shaxLbl .l{color:var(--verde3)}
+#slide .shaxLbl .m{color:var(--muted);font-weight:650}
+#slide .shaxLbl .r{color:var(--rojo3)}
+#slide .shaxBar{height:5px;border-radius:999px;background:linear-gradient(90deg,var(--verde3),var(--verde1) 42%,var(--gris0) 50%,var(--rojo1) 58%,var(--rojo3))}
+#slide .shaxTicks{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);margin-top:3px}
+#slide .shlist{position:relative}
+#slide .sSpine{position:absolute;left:50%;top:0;bottom:0;width:0;border-left:1.3px dashed rgba(31,42,36,.28)}
+#slide .sConn{position:absolute;height:1.4px;border-radius:2px}
+#slide .sConn.pos{background:var(--rojo2)} #slide .sConn.neg{background:var(--verde2)}
+#slide .sElbow{position:absolute;height:1.3px;border-radius:2px}
+#slide .sElbow.pos{background:var(--rojo2)} #slide .sElbow.neg{background:var(--verde2)}
+#slide .sDot{position:absolute;width:7px;height:7px;border-radius:50%;transform:translate(-50%,-50%);border:1.6px solid var(--bg)}
+#slide .sDot.pos{background:var(--rojo3)} #slide .sDot.neg{background:var(--verde3)}
+#slide .sTag{position:absolute;transform:translate(-50%,-100%);font-size:10px;font-weight:700;white-space:nowrap}
+#slide .sTag.pos{color:var(--rojo3)} #slide .sTag.neg{color:var(--verde3)}
+#slide .sCardPos{position:absolute;top:0}
+#slide .sCard{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid rgba(31,42,36,.10);border-radius:11px;padding:6px 11px;width:100%;box-shadow:0 1px 2px rgba(31,42,36,.06)}
+#slide .sCard .ico{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+#slide .sCard .ico svg{width:13px;height:13px}
+#slide .sCard .sinfo{flex:1;min-width:0}
+#slide .sCard .snom{font-weight:700;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#slide .sCard .sqty{color:var(--muted);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#slide .sCard .sval{text-align:right;flex:none}
+#slide .sCard .sval .snum{font-size:17px;font-weight:800;line-height:1.1}
+#slide .sCard .sval .savg{font-size:9.5px;color:var(--muted);font-weight:600}
+#slide .sfoot{position:absolute;bottom:22px;left:40px;right:40px;display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
 
 @media print{
   .printbtn, .filtros{display:none}
@@ -263,15 +281,15 @@ svg text{font-family:inherit}
 </div>
 
 <div id="slide">
-  <div class="shead">
-    <div class="sbrand">
-      <span>Realizado por Smart Farming</span>
-    </div>
+  <div class="shead"><span>Smart Farming</span><span class="pipe">|</span><span>Relaciones de precios</span></div>
+  <h1>¿Cuántos <b>kg de novillo</b> necesitás?</h1>
+  <div class="ssub">Para comprar cada insumo o producto. La posición indica la diferencia frente al promedio histórico.</div>
+  <div class="smeta">
+    <div class="srefpill"><span>Referencia</span> <b id="srefTxt"></b></div>
+    <div class="slegend">Número grande: kg de novillo por unidad · Debajo: promedio histórico</div>
   </div>
-  <h1>Semáforo de relaciones de precios</h1>
-  <div class="ssub" id="sssub"></div>
-  <div class="scols" id="scols"></div>
-  <div class="sfoot"><span>smart-farming.com.ar</span><span id="sfecha"></span></div>
+  <div class="s2cols" id="s2cols"></div>
+  <div class="sfoot"><span>smart-farming.com.ar</span><span>Datos, promedios y porcentajes del tablero en vivo.</span><span id="sfecha"></span></div>
 </div>
 
 <div id="tip"></div>
@@ -527,26 +545,73 @@ function renderMobile(list, rows, den, unidadTxt){
 let _resizeT;
 window.addEventListener('resize', ()=>{ clearTimeout(_resizeT); _resizeT = setTimeout(render, 120); });
 
+const GRUPO_IZQ = ['Hacienda','Insumos agrícolas','Labores y mano de obra'];
+
+function construirMitad(contEl, rows, den){
+  const W = contEl.clientWidth || 740;
+  const rowH = 58;
+  const cardW = Math.min(320, W*0.62);
+  const centerPx = W/2;
+  contEl.style.height = (rows.length*rowH)+'px';
+  let html = `<div class="sSpine"></div>`;
+  rows.forEach((r,idx)=>{
+    const dif = r.r.dif;
+    const pctRaw = dif==null ? 0 : Math.max(-ESCALA, Math.min(ESCALA, dif*100));
+    const pct = (pctRaw+ESCALA)/(2*ESCALA)*100;
+    const dotPx = Math.max(0, Math.min(W, (pct/100)*W));
+    const cardTop = idx*rowH + 18;
+    const sign = dif==null ? 'na' : (dif>=0 ? 'pos':'neg');
+    const cardCenterPx = Math.max(cardW/2, Math.min(W-cardW/2, dotPx));
+    const cardLeftPx = cardCenterPx - cardW/2;
+    const lineY = cardTop - 5;
+    const lo = Math.min(centerPx,dotPx), hi = Math.max(centerPx,dotPx);
+    const elbow = Math.abs(cardCenterPx-dotPx) > 1
+      ? `<div class="sElbow ${sign}" style="left:${Math.min(dotPx,cardCenterPx)}px;width:${Math.abs(cardCenterPx-dotPx)}px;top:${cardTop-1}px"></div>`
+      : '';
+    html += `
+      <div class="sConn ${sign}" style="left:${lo}px;width:${hi-lo}px;top:${lineY}px"></div>
+      ${elbow}
+      <div class="sDot ${sign}" style="left:${dotPx}px;top:${lineY}px"></div>
+      <div class="sTag ${sign}" style="left:${dotPx}px;top:${lineY-5}px">${dif!=null?fmtPct(dif):'s/d'}</div>
+      <div class="sCardPos" style="top:${cardTop}px;left:${cardLeftPx}px;width:${cardW}px">
+        <div class="sCard">
+          <span class="ico">${icono(r.g)}</span>
+          <div class="sinfo"><div class="snom">${r.it[1]}</div><div class="sqty">${r.it[2]}${r.valorRef!=null?` · $${fmt(r.valorRef)}`:''}</div></div>
+          <div class="sval"><div class="snum">${fmt(r.r.cur)}</div><div class="savg">prom. ${fmt(r.r.avg)}</div></div>
+        </div>
+      </div>`;
+  });
+  contEl.innerHTML = html;
+}
+
 function construirSlide(){
   const den = DENS.find(d=>d.id===st.den);
   const data = filas();
-  document.getElementById('sssub').textContent =
-    `Cada relación, ubicada frente a su promedio histórico · Referencia: ${den.n} · ${fmt((den.t==='serie'?col(den.i):null)[st.sel])} ${den.u}`;
-  const cols = document.getElementById('scols');
-  cols.innerHTML = data.map(gr => {
-    const filasHtml = gr.rows.map(r => {
-      const e = estado(r.r.dif);
-      return `<div class="srow ${e.k}">
-        <div class="snom">${r.it[1]}</div>
-        <div class="sqty">${r.it[2]}</div>
-        <div class="sval">${fmt(r.r.cur)} <span>kg ${den.n.split(' ')[0].toLowerCase()}</span></div>
-      </div>`;
-    }).join('');
-    return `<div class="scol">
-      <div class="schead"><span class="ico">${icono(gr.g)}</span>${gr.g}</div>
-      <div class="srows">${filasHtml}</div>
+  document.getElementById('srefTxt').textContent =
+    `${den.n} · ${fmt((den.t==='serie'?col(den.i):null)[st.sel])} ${den.u}`;
+
+  const izqRows = [], derRows = [];
+  data.forEach(gr=>{ (GRUPO_IZQ.includes(gr.g) ? izqRows : derRows).push(...gr.rows); });
+
+  const ejeHtml = `
+    <div class="shaxis">
+      <div class="shaxLbl"><span class="l">Más barato</span><span class="m">Promedio histórico</span><span class="r">Más caro</span></div>
+      <div class="shaxBar"></div>
+      <div class="shaxTicks"><span>-${ESCALA}%</span><span>-${ESCALA/2}%</span><span>0</span><span>+${ESCALA/2}%</span><span>+${ESCALA}%</span></div>
     </div>`;
-  }).join('');
+  document.getElementById('s2cols').innerHTML = `
+    <div class="shalf">
+      <div class="shtitle">Hacienda, insumos y labores</div>
+      <div class="shpanel">${ejeHtml}<div class="shlist" id="shlist1"></div></div>
+    </div>
+    <div class="shalf">
+      <div class="shtitle">Pasturas, bienes y tierra</div>
+      <div class="shpanel">${ejeHtml}<div class="shlist" id="shlist2"></div></div>
+    </div>`;
+
+  construirMitad(document.getElementById('shlist1'), izqRows, den);
+  construirMitad(document.getElementById('shlist2'), derRows, den);
+
   document.getElementById('sfecha').textContent = lblMesCap(st.sel);
 }
 document.getElementById('btnPrint').onclick = async () => {
@@ -556,7 +621,7 @@ document.getElementById('btnPrint').onclick = async () => {
   try{
     construirSlide();
     const el = document.getElementById('slide');
-    const canvas = await html2canvas(el, {scale:2, backgroundColor:'#ffffff', width:1280, height:720});
+    const canvas = await html2canvas(el, {scale:2, backgroundColor:'#ffffff', width:1600, height:900});
     const a = document.createElement('a');
     a.download = 'semaforo-precios.png';
     a.href = canvas.toDataURL('image/png');
