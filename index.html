@@ -130,14 +130,14 @@ select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);
 .mpct b.pos{color:var(--rojo3)}
 .mpct b.neg{color:var(--verde3)}
 
-#slide{position:fixed;left:-10000px;top:0;width:1600px;height:900px;background:#fff;box-sizing:border-box;
+#slide{position:fixed;left:-10000px;top:0;width:1600px;height:900px;background:var(--bg);box-sizing:border-box;
   padding:30px 40px 56px;font:14px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);display:flex;flex-direction:column}
 #slide .shead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
-#slide .shead .sbrandline{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:15px;font-weight:650}
-#slide .shead .sbrandline b{color:var(--ink);font-size:17px;font-weight:800}
-#slide .shead .pipe{color:var(--line)}
-#slide .smark{flex:none;width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center}
-#slide .smark svg{width:17px;height:17px}
+#slide .shead .sbrandline{display:flex;align-items:center;gap:12px}
+#slide .sLogoImg{flex:none;height:56px;width:auto;border-radius:9px;display:block}
+#slide .sbtxt{display:flex;flex-direction:column;gap:1px;line-height:1.25}
+#slide .sbtxt b{color:var(--ink);font-size:20px;font-weight:800}
+#slide .sbtxt span{color:var(--muted);font-size:13px}
 #slide .sbadge{flex:none;width:52px;height:52px;border-radius:50%;border:2px solid var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:var(--accent);background:#fff}
 #slide .sbadge svg{width:17px;height:17px}
 #slide .sbadge span{font-size:6.5px;font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:1.05;text-align:center}
@@ -293,8 +293,8 @@ svg text{font-family:inherit}
 <div id="slide">
   <div class="shead">
     <div class="sbrandline">
-      <span class="smark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12C12 8 9 6 5 6c0 4 3 6.5 7 6Z"/><path d="M12 12c0-5 3-7.5 7-7.5 0 4.5-3 7-7 7.5Z"/></svg></span>
-      <b>Smart Farming</b><span class="pipe">|</span><span>Podcast Ganadero</span>
+      <img class="sLogoImg" id="sLogoImg" alt="Smart Farming">
+      <span class="sbtxt"><b>Smart Farming</b><span>Contenido exclusivo · Podcast Ganadero</span></span>
     </div>
     <div class="sbadge">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-4M10 18V9M16 18v-8M4 10l6-5 6 4 4-3"/></svg>
@@ -441,13 +441,23 @@ function filas(){
   return out;
 }
 
-const ESCALA = 60; // rango fijo del eje (±%), igual en desktop y mobile para poder comparar entre rubros
+let ESCALA = 60; // rango del eje (±%); se recalcula en cada render para que entren todos los valores
 const MOBILE_BP = 680;
+function escalaFor(rowsFlat){
+  let mx = 0;
+  rowsFlat.forEach(r=>{ if(r.r.dif!=null) mx = Math.max(mx, Math.abs(r.r.dif)*100); });
+  return Math.max(60, Math.ceil(mx/20)*20); // piso 60%, redondeado al 20% más próximo hacia arriba
+}
 
 function render(){
   const den = DENS.find(d=>d.id===st.den);
   const unidadTxt = den.txt.split(' necesarios')[0];
   const data = filas();
+
+  const todasLasFilas = []; data.forEach(gr=>todasLasFilas.push(...gr.rows));
+  ESCALA = escalaFor(todasLasFilas); // misma escala entre rubros (no depende del tab activo)
+  const axTicks = document.querySelector('.axisTicks');
+  if(axTicks) axTicks.innerHTML = `<span>-${ESCALA}%</span><span>promedio</span><span>+${ESCALA}%</span>`;
 
   document.getElementById('refTxt').innerHTML = `${fmt((den.t==='serie'?col(den.i):null)[st.sel])} ${den.u}`;
 
@@ -611,6 +621,7 @@ function construirSlide(){
 
   const izqRows = [], derRows = [];
   data.forEach(gr=>{ (GRUPO_IZQ.includes(gr.g) ? izqRows : derRows).push(...gr.rows); });
+  ESCALA = escalaFor([...izqRows, ...derRows]); // misma escala para las dos columnas del export
 
   const ejeHtml = `
     <div class="shaxis">
@@ -733,6 +744,9 @@ function mesPorDefecto(){
   return N-1;
 }
 function init(){
+  // reusa el logo real de la marca (arriba a la izquierda) para el encabezado de la imagen exportada
+  const logoReal = document.querySelector('.topbrand img');
+  if(logoReal) document.getElementById('sLogoImg').src = logoReal.src;
   st.sel = mesPorDefecto();
   const selDen=document.getElementById('den');
   selDen.innerHTML=DENS.map(d=>`<option value="${d.id}">${d.n}</option>`).join('');
