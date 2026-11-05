@@ -18,22 +18,28 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.wrap{max-width:720px;margin:0 auto;padding:18px 16px 40px}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 16px 36px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
 .topbrand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font-size:12px}
 .topbrand img{height:26px;width:auto;border-radius:5px;display:block}
 .topbrand:hover{color:var(--ink)}
 .printbtn{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:9px;cursor:pointer;flex:none}
 .printbtn:hover{background:var(--accent-soft);border-color:var(--accent-soft)}
 .printbtn svg{width:15px;height:15px}
-h1{margin:4px 0 2px;font-size:26px;font-weight:750;letter-spacing:-.01em}
-.sub{color:var(--muted);font-size:13.5px;margin:0 0 14px}
-.howto{display:flex;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 14px;color:var(--muted);font-size:12.5px;line-height:1.5}
-.howto .ico{flex:none;width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
-.howto .ico svg{width:15px;height:15px}
-.howto b{color:var(--ink)}
+h1{margin:2px 0 1px;font-size:21px;font-weight:750;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:13px;margin:0 0 9px}
 
-.refpill{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px 7px 7px;width:fit-content;max-width:100%}
+details.howto{margin:0 0 10px}
+details.howto summary{cursor:pointer;font-size:12.5px;color:var(--accent);font-weight:650;list-style:none;display:inline-flex;align-items:center;gap:4px}
+details.howto summary::-webkit-details-marker{display:none}
+details.howto summary::after{content:'▾';font-size:10px;transition:transform .15s}
+details.howto[open] summary::after{transform:rotate(180deg)}
+.howtxt{display:flex;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:11px 14px;margin-top:7px;color:var(--muted);font-size:12.5px;line-height:1.5}
+.howtxt .ico{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.howtxt .ico svg{width:14px;height:14px}
+.howtxt b{color:var(--ink)}
+
+.refpill{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 6px;width:fit-content;max-width:100%;margin-bottom:6px}
 .refpill .ico{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;flex:none}
 .refpill .ico svg{width:17px;height:17px}
 .refpill .txt{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -41,78 +47,103 @@ h1{margin:4px 0 2px;font-size:26px;font-weight:750;letter-spacing:-.01em}
 .refselect{font:inherit;font-size:13px;font-weight:700;color:var(--ink);background:transparent;border:none;padding:0 14px 0 0;margin:0;cursor:pointer}
 .refselect:hover{text-decoration:underline}
 
-details.filtros{margin:10px 0 2px}
-details.filtros summary{cursor:pointer;font-size:12.5px;color:var(--accent);font-weight:650;list-style:none;display:inline-flex;align-items:center;gap:4px}
+details.filtros{margin:6px 0 0}
+details.filtros summary{cursor:pointer;font-size:12.5px;color:var(--accent);font-weight:650;list-style:none;display:inline-flex;align-items:center;gap:4px;padding:2px 0}
 details.filtros summary::-webkit-details-marker{display:none}
 details.filtros summary::after{content:'▾';font-size:10px;transition:transform .15s}
 details.filtros[open] summary::after{transform:rotate(180deg)}
-.filtgrid{display:flex;flex-wrap:wrap;gap:8px 14px;padding:10px 2px 2px}
-.filtgrid label{display:flex;flex-direction:column;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;gap:3px}
-select{font:inherit;font-size:13px;padding:5px 7px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:150px}
+.filtgrid{display:flex;flex-wrap:wrap;gap:10px 18px;padding:10px 2px 4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-top:6px}
+.filtgrid label{display:flex;flex-direction:column;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;gap:4px;flex:1 1 190px;min-width:170px;padding:8px 10px}
+select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);min-width:0}
+.filtgrid select{width:100%}
 
-.barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 10px;padding:14px 0 12px}
+.barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 10px;padding:12px 0 10px}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
 .tabs button{flex:none;font:inherit;font-size:12.5px;font-weight:650;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap}
 .tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
 .ordenlbl{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;flex:none}
 .ordenlbl select{font:inherit;font-size:12.5px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);text-transform:none;letter-spacing:0}
 
-.chartpanel{position:relative;border-radius:20px;padding:16px 16px 18px;overflow:hidden;margin-top:2px;
+.chartpanel{position:relative;border-radius:18px;padding:14px 16px 16px;overflow:hidden;margin-top:2px;
   background:linear-gradient(90deg,#bfe3b0 0%,#dcefd4 30%,#eef5ea 46%,#f6f1ea 54%,#fbe2d8 70%,#f1b7a4 100%)}
-.axisWrap{padding:0 0 10px}
-.axisLabels{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:6px}
+.axisWrap{padding:0 0 8px}
+.axisLabels{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;margin-bottom:5px}
 .axisLabels .l{color:var(--verde3)}
 .axisLabels .r{color:var(--rojo3)}
-.axisBar{height:8px;border-radius:999px;background:linear-gradient(90deg,var(--verde3),var(--verde1) 42%,var(--gris0) 50%,var(--rojo1) 58%,var(--rojo3));position:relative}
-.axisTicks{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+.axisBar{height:7px;border-radius:999px;background:linear-gradient(90deg,var(--verde3),var(--verde1) 42%,var(--gris0) 50%,var(--rojo1) 58%,var(--rojo3));position:relative}
+.axisTicks{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:4px}
 
-.list{position:relative;margin-top:6px}
+.list{position:relative;margin-top:4px}
 .spine{position:absolute;left:50%;top:0;bottom:0;width:0;border-left:1.5px dashed rgba(31,42,36,.28);z-index:0}
 .hconn{position:absolute;height:1.6px;z-index:1;border-radius:2px;background:var(--line)}
 .hconn.pos{background:var(--rojo2)}
 .hconn.neg{background:var(--verde2)}
-.tag{position:absolute;transform:translate(-50%,-100%);font-size:11px;font-weight:700;white-space:nowrap;padding:0 2px;color:var(--muted)}
+.elbow{position:absolute;height:1.4px;z-index:1;border-radius:2px;background:var(--line)}
+.elbow.pos{background:var(--rojo2)}
+.elbow.neg{background:var(--verde2)}
+.tag{position:absolute;transform:translate(-50%,-100%);font-size:10.5px;font-weight:700;white-space:nowrap;padding:0 2px;color:var(--muted)}
 .tag.pos{color:var(--rojo3)}
 .tag.neg{color:var(--verde3)}
-.dot{position:absolute;width:8px;height:8px;border-radius:50%;transform:translate(-50%,-50%);z-index:2;border:2px solid var(--bg);background:var(--muted)}
+.dot{position:absolute;width:7px;height:7px;border-radius:50%;transform:translate(-50%,-50%);z-index:2;border:2px solid var(--bg);background:var(--muted)}
 .dot.pos{background:var(--rojo3)}
 .dot.neg{background:var(--verde3)}
 
 .cardpos{position:absolute;top:0}
-.card{position:relative;z-index:2;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid rgba(31,42,36,.10);border-radius:14px;padding:10px 14px;width:100%;box-shadow:0 1px 3px rgba(31,42,36,.07);cursor:pointer}
+.card{position:relative;z-index:2;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(31,42,36,.10);border-radius:12px;padding:7px 12px;width:100%;box-shadow:0 1px 3px rgba(31,42,36,.07);cursor:pointer}
 .card:hover{border-color:var(--accent)}
-.card .ico{flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
-.card .ico svg{width:18px;height:18px}
+.card .ico{flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.card .ico svg{width:15px;height:15px}
 .card .info{flex:1;min-width:0}
-.card .info .nom{font-weight:650;font-size:13.5px}
-.card .info .qty{color:var(--muted);font-size:11.5px}
+.card .info .nom{font-weight:650;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .info .qty{color:var(--muted);font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .val{text-align:right;flex:none}
-.card .val .num{font-size:19px;font-weight:750}
-.card .val .unit{font-size:11px;color:var(--muted);font-weight:600}
+.card .val .num{font-size:17px;font-weight:750}
+.card .val .unit{font-size:10px;color:var(--muted);font-weight:600}
 .card .chev{flex:none;color:var(--muted)}
-.card .chev svg{width:16px;height:16px}
+.card .chev svg{width:14px;height:14px}
 .vacio{color:var(--muted);font-size:13px;padding:24px 4px}
 
-@media (max-width:520px){
-  .hconn,.dot,.tag{display:none}
-}
+/* ---- vista mobile: filas en flujo normal, mini-escala propia por fila ---- */
+.mlist{display:flex;flex-direction:column;gap:8px}
+.mrow{background:#fff;border:1px solid rgba(31,42,36,.10);border-radius:12px;padding:9px 12px 10px;cursor:pointer}
+.mrow:active{border-color:var(--accent)}
+.mtop{display:flex;align-items:center;gap:10px}
+.mtop .ico{flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.mtop .ico svg{width:16px;height:16px}
+.minfo{flex:1;min-width:0}
+.minfo .nom{font-weight:650;font-size:13.5px}
+.minfo .qty{color:var(--muted);font-size:11px}
+.mval{text-align:right;flex:none}
+.mval .num{font-size:18px;font-weight:750}
+.mval .unit{font-size:10.5px;color:var(--muted);font-weight:600}
+.mscale{position:relative;height:14px;margin:8px 2px 2px}
+.mscale .mbar{position:absolute;left:0;right:0;top:6px;height:4px;border-radius:999px;background:linear-gradient(90deg,var(--verde3),var(--verde1) 42%,var(--gris0) 50%,var(--rojo1) 58%,var(--rojo3))}
+.mscale .mavg{position:absolute;left:50%;top:0;bottom:0;width:0;border-left:1.5px dashed rgba(31,42,36,.3)}
+.mscale .mdot{position:absolute;top:8px;width:9px;height:9px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid #fff;background:var(--muted)}
+.mscale .mdot.pos{background:var(--rojo3)}
+.mscale .mdot.neg{background:var(--verde3)}
+.mpct{display:flex;justify-content:space-between;align-items:center;margin-top:3px;font-size:10.5px;color:var(--muted)}
+.mpct b{font-size:11px;font-weight:700;color:var(--muted)}
+.mpct b.pos{color:var(--rojo3)}
+.mpct b.neg{color:var(--verde3)}
 
 #slide{position:fixed;left:-10000px;top:0;width:1280px;height:720px;background:#fff;box-sizing:border-box;
-  padding:34px 40px;font:14px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink)}
-#slide .shead{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-#slide .sbrand{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
-#slide h1{font-size:22px;margin:2px 0 2px;font-weight:800}
-#slide .ssub{color:var(--muted);font-size:12.5px;margin-bottom:16px}
-#slide .scols{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
-#slide .scol{min-width:0}
-#slide .schead{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--accent);margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid var(--accent-soft)}
-#slide .schead .ico{flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
-#slide .schead .ico svg{width:12px;height:12px}
-#slide .srow{border-radius:9px;padding:7px 9px;margin-bottom:7px;width:fit-content;max-width:100%}
-#slide .srow .snom{font-weight:700;font-size:11.5px;line-height:1.2}
-#slide .srow .sqty{color:var(--muted);font-size:9.5px;margin-bottom:3px}
-#slide .srow .sval{font-weight:800;font-size:14px}
-#slide .srow .sval span{font-weight:600;font-size:9.5px;color:var(--muted)}
+  padding:26px 36px;font:14px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);display:flex;flex-direction:column}
+#slide .shead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+#slide .sbrand{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+#slide h1{font-size:25px;margin:2px 0 3px;font-weight:800}
+#slide .ssub{color:var(--muted);font-size:14px;margin-bottom:14px}
+#slide .scols{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;flex:1;align-content:center}
+#slide .scol{min-width:0;display:flex;flex-direction:column}
+#slide .srows{flex:1;display:flex;flex-direction:column;justify-content:center}
+#slide .schead{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--accent);margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid var(--accent-soft)}
+#slide .schead .ico{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+#slide .schead .ico svg{width:14px;height:14px}
+#slide .srow{border-radius:10px;padding:9px 12px;margin-bottom:9px;width:fit-content;max-width:100%}
+#slide .srow .snom{font-weight:700;font-size:14.5px;line-height:1.25}
+#slide .srow .sqty{color:var(--muted);font-size:11.5px;margin-bottom:4px}
+#slide .srow .sval{font-weight:800;font-size:19px}
+#slide .srow .sval span{font-weight:600;font-size:11.5px;color:var(--muted)}
 #slide .srow.k3{background:var(--rojo1)}
 #slide .srow.k2{background:#f6c9ba}
 #slide .srow.k1{background:#fbe6de}
@@ -214,15 +245,18 @@ svg text{font-family:inherit}
       </select>
     </label>
   </div>
-  <div class="howto">
-    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".6" fill="currentColor" stroke="none"/></svg></span>
-    <div>Cada tarjeta se ubica en la línea según qué tan lejos está del <b>promedio histórico</b>: más a la izquierda y verde, más barato; más a la derecha y rojo, más caro. El número junto al conector es esa diferencia porcentual. Tocá una tarjeta para ver su evolución completa.</div>
-  </div>
+  <details class="howto">
+    <summary>Cómo leerlo</summary>
+    <div class="howtxt">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".6" fill="currentColor" stroke="none"/></svg></span>
+      <div>Cada tarjeta se ubica según qué tan lejos está del <b>promedio histórico</b>: más a la izquierda y verde, más barato; más a la derecha y rojo, más caro. El punto marca esa diferencia porcentual real; la tarjeta puede correrse para entrar en pantalla, pero sigue conectada a su punto. El dato grande son los kilos de novillo; el porcentaje es secundario. Tocá una tarjeta para ver su evolución histórica completa.</div>
+    </div>
+  </details>
   <div class="chartpanel">
     <div class="axisWrap">
       <div class="axisLabels"><span class="l">Más barato</span><span class="r">Más caro</span></div>
       <div class="axisBar"></div>
-      <div class="axisTicks"><span>-40%</span><span>promedio</span><span>+40%</span></div>
+      <div class="axisTicks"><span>-60%</span><span>promedio</span><span>+60%</span></div>
     </div>
     <div class="list" id="list"></div>
   </div>
@@ -301,7 +335,8 @@ function estado(dif){
   return ESTADOS[6];
 }
 
-const st = {den:'43', sel: N-1, modo:'mismo', anios:10, rango:'10', tab:'Todos', orden:'rubro'};
+const st = {den:'43', sel: N-1, modo:'mismo', anios:10, rango:'10', tab:'Hacienda', orden:'rubro'};
+try{ const savedTab = localStorage.getItem('sf_tab'); if(savedTab) st.tab = savedTab; }catch(e){}
 
 function serieRel(it, den, sel){
   const num = col(it[0]); if(!num) return null;
@@ -369,6 +404,9 @@ function filas(){
   return out;
 }
 
+const ESCALA = 60; // rango fijo del eje (±%), igual en desktop y mobile para poder comparar entre rubros
+const MOBILE_BP = 680;
+
 function render(){
   const den = DENS.find(d=>d.id===st.den);
   const unidadTxt = den.txt.split(' necesarios')[0];
@@ -379,7 +417,11 @@ function render(){
   const tabsEl = document.getElementById('tabs');
   const nombres = ['Todos', ...data.map(gr=>gr.g)];
   tabsEl.innerHTML = nombres.map(n=>`<button class="${st.tab===n?'on':''}" data-t="${n}">${n}</button>`).join('');
-  tabsEl.querySelectorAll('button').forEach(b=>b.onclick=()=>{ st.tab=b.dataset.t; render(); });
+  tabsEl.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    st.tab=b.dataset.t;
+    try{ localStorage.setItem('sf_tab', st.tab); }catch(e){}
+    render();
+  });
 
   window._filas = {};
   let rows = [];
@@ -399,36 +441,52 @@ function render(){
   rows.forEach(r=>{ window._filas[r.key]=r; });
 
   const list = document.getElementById('list');
-  const rowH = 90, cardH = 60;
   const W = list.clientWidth || list.getBoundingClientRect().width;
-  const cardW = Math.min(300, W*0.74);
-  const centerPx = W/2;
 
   if(!rows.length){
+    list.className = 'list';
     list.style.height='auto';
     list.innerHTML = '<div class="vacio">No hay ítems en esta categoría para el mes elegido.</div>';
     return;
   }
+
+  if(W < MOBILE_BP) renderMobile(list, rows, den, unidadTxt);
+  else renderDesktop(list, rows, den, unidadTxt, W);
+
+  list.querySelectorAll('[data-key]').forEach(elc=>elc.addEventListener('click',()=>abrirModal(elc.dataset.key)));
+}
+
+function renderDesktop(list, rows, den, unidadTxt, W){
+  list.className = 'list';
+  const rowH = 68, cardH = 46;
+  const cardW = Math.min(380, W*0.68);
+  const centerPx = W/2;
   list.style.height = (rows.length*rowH)+'px';
   let html = `<div class="spine"></div>`;
   rows.forEach((r,idx)=>{
     const dif = r.r.dif;
     const e = estado(dif);
-    const pctRaw = dif==null ? 0 : Math.max(-40, Math.min(40, dif*100));
-    const pct = (pctRaw+40)/80*100;
-    const valuePx = (pct/100)*W;
-    const cardTop = idx*rowH + 28;
+    // posición REAL del punto en la escala ±ESCALA (sin recortar por el ancho de la tarjeta)
+    const pctRaw = dif==null ? 0 : Math.max(-ESCALA, Math.min(ESCALA, dif*100));
+    const pct = (pctRaw+ESCALA)/(2*ESCALA)*100;
+    const dotPx = Math.max(0, Math.min(W, (pct/100)*W));
+    const cardTop = idx*rowH + 24;
     const sign = dif==null ? 'na' : (dif>=0 ? 'pos':'neg');
-    const centerClamped = Math.max(cardW/2, Math.min(W-cardW/2, valuePx));
-    const cardLeftPx = centerClamped - cardW/2;
-    const anchorPx = centerClamped;
+    // la TARJETA se recorta para entrar en pantalla; el punto no se mueve
+    const cardCenterPx = Math.max(cardW/2, Math.min(W-cardW/2, dotPx));
+    const cardLeftPx = cardCenterPx - cardW/2;
     const lineY = cardTop - 6;
-    const lo = Math.min(centerPx, anchorPx), hi = Math.max(centerPx, anchorPx);
+    const lo = Math.min(centerPx, dotPx), hi = Math.max(centerPx, dotPx);
     const tActual = r.r.cur==null ? 'Sin dato para este mes' : `Hacen falta ${fmt(r.r.cur)} ${unidadTxt} para comprar 1 ${r.it[1]}`;
+    // codo que conecta el punto real con la tarjeta, solo si tuvo que correrse
+    const elbow = Math.abs(cardCenterPx-dotPx) > 1
+      ? `<div class="elbow ${sign}" style="left:${Math.min(dotPx,cardCenterPx)}px;width:${Math.abs(cardCenterPx-dotPx)}px;top:${cardTop-1}px"></div>`
+      : '';
     html += `
       <div class="hconn ${sign}" style="left:${lo}px;width:${hi-lo}px;top:${lineY}px"></div>
-      <div class="dot ${sign}" style="left:${anchorPx}px;top:${lineY}px"></div>
-      <div class="tag ${sign}" style="left:${anchorPx}px;top:${lineY-6}px">${dif!=null?fmtPct(dif):'s/d'}</div>
+      ${elbow}
+      <div class="dot ${sign}" style="left:${dotPx}px;top:${lineY}px"></div>
+      <div class="tag ${sign}" style="left:${dotPx}px;top:${lineY-6}px">${dif!=null?fmtPct(dif):'s/d'}</div>
       <div class="cardpos" style="top:${cardTop}px;left:${cardLeftPx}px;width:${cardW}px">
         <div class="card" data-key="${r.key}" title="${tActual}">
           <span class="ico">${icono(r.g)}</span>
@@ -439,8 +497,33 @@ function render(){
       </div>`;
   });
   list.innerHTML = html;
-  list.querySelectorAll('.card').forEach(elc=>elc.addEventListener('click',()=>abrirModal(elc.dataset.key)));
 }
+
+function renderMobile(list, rows, den, unidadTxt){
+  list.className = 'list mlist';
+  list.style.height = 'auto';
+  list.innerHTML = rows.map(r=>{
+    const dif = r.r.dif;
+    const sign = dif==null ? 'na' : (dif>=0 ? 'pos':'neg');
+    const pctRaw = dif==null ? 0 : Math.max(-ESCALA, Math.min(ESCALA, dif*100));
+    const pct = (pctRaw+ESCALA)/(2*ESCALA)*100;
+    const tActual = r.r.cur==null ? 'Sin dato para este mes' : `Hacen falta ${fmt(r.r.cur)} ${unidadTxt} para comprar 1 ${r.it[1]}`;
+    return `<div class="mrow" data-key="${r.key}" title="${tActual}">
+      <div class="mtop">
+        <span class="ico">${icono(r.g)}</span>
+        <div class="minfo"><div class="nom">${r.it[1]}</div><div class="qty">${r.it[2]}</div></div>
+        <div class="mval"><div class="num">${fmt(r.r.cur)}</div><div class="unit">kg ${den.n.split(' ')[0].toLowerCase()}</div></div>
+      </div>
+      <div class="mscale">
+        <div class="mbar"></div>
+        <div class="mavg"></div>
+        <div class="mdot ${sign}" style="left:${pct}%"></div>
+      </div>
+      <div class="mpct"><span>Más barato</span><b class="${sign}">${dif!=null?fmtPct(dif):'s/d'} vs. promedio</b><span>Más caro</span></div>
+    </div>`;
+  }).join('');
+}
+
 let _resizeT;
 window.addEventListener('resize', ()=>{ clearTimeout(_resizeT); _resizeT = setTimeout(render, 120); });
 
@@ -461,7 +544,7 @@ function construirSlide(){
     }).join('');
     return `<div class="scol">
       <div class="schead"><span class="ico">${icono(gr.g)}</span>${gr.g}</div>
-      ${filasHtml}
+      <div class="srows">${filasHtml}</div>
     </div>`;
   }).join('');
   document.getElementById('sfecha').textContent = lblMesCap(st.sel);
