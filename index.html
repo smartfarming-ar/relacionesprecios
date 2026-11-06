@@ -561,29 +561,34 @@ const ICO_EXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 
 const GRUPOS = [
   {g:'Hacienda', items:[[14,'Ternero','180–200 kg',1],[17,'Recriado','260–300 kg',1],[33,'Vaquillona preñada','1 cabeza',1]]},
-  {g:'Insumos agrícolas', items:[[92,'Maíz','1 tonelada',1],[103,'Urea','1 tonelada',1],[104,'Fosfato diamónico','1 tonelada',1]]},
+  {g:'Insumos agrícolas', items:[[92,'Maíz','1 tonelada',1,'toneladas'],[103,'Urea','1 tonelada',1],[104,'Fosfato diamónico','1 tonelada',1]]},
   {g:'Labores y mano de obra', items:[[110,'Siembra directa','1 hectárea',1],[111,'Pulverización','1 hectárea',1],[106,'Peón general','1 salario mensual',1],[108,'Gasoil','1 litro',1]]},
   {g:'Pasturas y verdeos', items:[[1000,'Siembra de pastura','alfalfa · 1 ha',1],[1001,'Siembra de verdeo','sorgo · 1 ha',1]]},
   {g:'Infraestructura y bienes', items:[[112,'Alambre','1000 metros',1],[113,'Poste quebracho','1 poste',1],[118,'Camioneta 4x4','1 unidad',1]]},
-  {g:'Tierra e inmuebles', items:[[119,'Tierra de cría','1 hectárea',1],[121,'Tierra de invernada','1 hectárea',1],[120,'Tierra maicera','1 hectárea',1],[146,'Inmueble','1 m² Remax',1],[144,'Construir','1 m² (UVA)',1]]}
+  {g:'Tierra e inmuebles', items:[[119,'Tierra de cría','1 hectárea',1],[121,'Tierra de invernada','1 hectárea',1],[120,'Tierra maicera','1 hectárea',1],[146,'Inmueble','1 m² Remax',1],[144,'Construir','1 m² (UVA)',1]]},
+  {g:'Granos y lácteos', items:[[93,'Soja','1 tonelada',1,'toneladas'],[94,'Trigo','1 tonelada',1,'toneladas'],[95,'Girasol','1 tonelada',1,'toneladas'],[122,'Leche','1000 litros',1,'litros']]}
 ];
 const DENS = [
   {id:'43', n:'Novillo gordo (Esp. Joven +430)', t:'serie', i:43, u:'$/kg', txt:'kg de novillo gordo necesarios para comprar 1 unidad del ítem'},
   {id:'47', n:'Novillito (Esp. +390)',           t:'serie', i:47, u:'$/kg', txt:'kg de novillito necesarios para comprar 1 unidad del ítem'},
-  {id:'14', n:'Ternero 180-200 kg',              t:'serie', i:14, u:'$/kg', txt:'kg de ternero necesarios para comprar 1 unidad del ítem'},
   {id:'17', n:'Recriado 260-300 kg',             t:'serie', i:17, u:'$/kg', txt:'kg de recriado necesarios para comprar 1 unidad del ítem'},
-  {id:'92', n:'Maíz',                            t:'serie', i:92, u:'$/kg', txt:'kg de maíz necesarios para comprar 1 unidad del ítem'},
-  {id:'93', n:'Soja',                            t:'serie', i:93, u:'$/kg', txt:'kg de soja necesarios para comprar 1 unidad del ítem'},
-  {id:'94', n:'Trigo',                           t:'serie', i:94, u:'$/kg', txt:'kg de trigo necesarios para comprar 1 unidad del ítem'},
-  {id:'95', n:'Girasol',                         t:'serie', i:95, u:'$/kg', txt:'kg de girasol necesarios para comprar 1 unidad del ítem'},
-  {id:'122',n:'Leche',                           t:'serie', i:122,u:'$/l', txt:'litros de leche necesarios para comprar 1 unidad del ítem'}
+  // Ternero y Vaquillona: referencia "invertida" (replica las tablas "¿Cuántas toneladas de
+  // grano o litros de leche necesito para comprar 1 [animal]?" de la hoja "Rel De precios"
+  // del Excel). peso = kg representativos del animal (Vaquillona ya es un valor total por
+  // cabeza, no necesita peso).
+  {id:'14', n:'Ternero 180-200 kg',              t:'serie', i:14, u:'$/kg', inv:true, peso:190, txt:'toneladas (o litros de leche) necesarios para comprar 1 ternero'},
+  {id:'33', n:'Vaquillona (Gtía. Preñez)',       t:'serie', i:33, u:'$/vientre', inv:true, peso:1, txt:'toneladas (o litros de leche) necesarios para comprar 1 vaquillona preñada'}
 ];
 // Ítems visibles por referencia: replica los recortes de la hoja "Rel De precios" del Excel
 // (cada referencia ahí compara solo contra un subconjunto curado de ítems, no contra todos).
-// Si una referencia no tiene entrada acá, se muestran todos los ítems (comportamiento genérico).
+const STANDARD_LIST = [14,17,33,92,103,104,106,108,110,111,112,113,118,119,120,121,144,146,1000,1001];
+const GRANOS_LACTEOS = [92,93,94,95,122];
 const REF_ITEMS = {
-  '17': [33,92,103,104,106,108,110,111,112,113,118,119,120,121,144,146,1000,1001],
-  '92': [14,33], '93': [14,33], '94': [14,33], '95': [14,33], '122': [14,33]
+  '43': STANDARD_LIST,
+  '47': STANDARD_LIST,
+  '17': [33,92,103,104,106,108,110,111,112,113,118,119,120,121,144,146], // sin Ternero ni pastura/verdeo
+  '14': GRANOS_LACTEOS,
+  '33': GRANOS_LACTEOS
 };
 
 const ESTADOS = [
@@ -611,7 +616,15 @@ function serieRel(it, den, sel){
   const dd = col(den.i); if(!dd) return null;
   if(den.i===it[0]) return null;
   const out = new Array(N).fill(null);
-  for(let k=0;k<N;k++){ const a=num[k], b=dd[k]; if(a!=null && b!=null && b!==0) out[k]=a*I/b; }
+  if(den.inv){
+    // Referencia "invertida" (Ternero/Vaquillona): cuántas unidades del ítem (tn de grano,
+    // litros de leche) equivalen al valor total de 1 animal (precio del animal × su peso
+    // representativo, ya que el animal se guarda en $/kg salvo que sea un valor por cabeza).
+    const W = den.peso || 1;
+    for(let k=0;k<N;k++){ const a=dd[k], b=num[k]; if(a!=null && b!=null && b!==0) out[k]=a*W/b; }
+  } else {
+    for(let k=0;k<N;k++){ const a=num[k], b=dd[k]; if(a!=null && b!=null && b!==0) out[k]=a*I/b; }
+  }
   return out;
 }
 function ventana(sel, modo, anios){
@@ -756,7 +769,10 @@ function renderDesktop(list, rows, den, unidadTxt, W){
     const cardLeftPx = cardCenterPx - cardW/2;
     const lineY = cardTop - 14;
     const lo = Math.min(centerPx, dotPx), hi = Math.max(centerPx, dotPx);
-    const tActual = r.r.cur==null ? 'Sin dato para este mes' : `Hacen falta ${fmt(r.r.cur)} ${unidadTxt} para comprar 1 ${r.it[1]}`;
+    const tActual = r.r.cur==null ? 'Sin dato para este mes' : (den.inv
+      ? `Hacen falta ${fmt(r.r.cur)} ${r.it[4]||'unidades'} de ${r.it[1].toLowerCase()} para comprar 1 ${den.n}`
+      : `Hacen falta ${fmt(r.r.cur)} ${unidadTxt} para comprar 1 ${r.it[1]}`);
+    const unitCard = den.inv ? (r.it[4]||'u.') : ('kg ' + den.n.split(' ')[0].toLowerCase());
     // codo que conecta el punto real con la tarjeta, solo si tuvo que correrse
     const elbow = Math.abs(cardCenterPx-dotPx) > 1
       ? `<div class="elbow ${sign}" style="left:${Math.min(dotPx,cardCenterPx)}px;width:${Math.abs(cardCenterPx-dotPx)}px;top:${cardTop-1}px"></div>`
@@ -770,7 +786,7 @@ function renderDesktop(list, rows, den, unidadTxt, W){
         <div class="card" data-key="${r.key}" title="${tActual}">
           <span class="ico">${icono(r.g)}</span>
           <div class="info"><div class="nom">${r.it[1]}</div><div class="qty">${r.it[2]}</div></div>
-          <div class="val"><div class="num">${fmt(r.r.cur)}</div><div class="unit">kg ${den.n.split(' ')[0].toLowerCase()}</div></div>
+          <div class="val"><div class="num">${fmt(r.r.cur)}</div><div class="unit">${unitCard}</div></div>
           <span class="chev">${ICO_EXT}</span>
         </div>
       </div>`;
@@ -786,12 +802,15 @@ function renderMobile(list, rows, den, unidadTxt){
     const sign = dif==null ? 'na' : (dif>=0 ? 'pos':'neg');
     const pctRaw = dif==null ? 0 : Math.max(-ESCALA, Math.min(ESCALA, dif*100));
     const pct = (pctRaw+ESCALA)/(2*ESCALA)*100;
-    const tActual = r.r.cur==null ? 'Sin dato para este mes' : `Hacen falta ${fmt(r.r.cur)} ${unidadTxt} para comprar 1 ${r.it[1]}`;
+    const tActual = r.r.cur==null ? 'Sin dato para este mes' : (den.inv
+      ? `Hacen falta ${fmt(r.r.cur)} ${r.it[4]||'unidades'} de ${r.it[1].toLowerCase()} para comprar 1 ${den.n}`
+      : `Hacen falta ${fmt(r.r.cur)} ${unidadTxt} para comprar 1 ${r.it[1]}`);
+    const unitCard = den.inv ? (r.it[4]||'u.') : ('kg ' + den.n.split(' ')[0].toLowerCase());
     return `<div class="mrow" data-key="${r.key}" title="${tActual}">
       <div class="mtop">
         <span class="ico">${icono(r.g)}</span>
         <div class="minfo"><div class="nom">${r.it[1]}</div><div class="qty">${r.it[2]}</div></div>
-        <div class="mval"><div class="num">${fmt(r.r.cur)}</div><div class="unit">kg ${den.n.split(' ')[0].toLowerCase()}</div></div>
+        <div class="mval"><div class="num">${fmt(r.r.cur)}</div><div class="unit">${unitCard}</div></div>
       </div>
       <div class="mscale">
         <div class="mbar"></div>
