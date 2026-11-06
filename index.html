@@ -183,6 +183,23 @@ select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);
 #slide .sCard .sval{text-align:right;flex:none}
 #slide .sCard .sval .snum{font-size:14px;font-weight:800;line-height:1.05}
 #slide .sCard .sval .savg{font-size:9px;color:var(--muted);font-weight:600;line-height:1.2}
+/* Tamaño de tarjeta/letra según cuántos ítems entran en la columna (más grande si hay pocos) */
+#slide .shlist.t-md .sTag{font-size:10px}
+#slide .shlist.t-md .sCard{padding:4px 12px;gap:9px}
+#slide .shlist.t-md .sCard .ico{width:23px;height:23px}
+#slide .shlist.t-md .sCard .ico svg{width:12.5px;height:12.5px}
+#slide .shlist.t-md .sCard .snom{font-size:12.5px}
+#slide .shlist.t-md .sCard .sqty{font-size:9.5px}
+#slide .shlist.t-md .sCard .sval .snum{font-size:15.5px}
+#slide .shlist.t-md .sCard .sval .savg{font-size:9.5px}
+#slide .shlist.t-lg .sTag{font-size:11.5px}
+#slide .shlist.t-lg .sCard{padding:7px 16px;gap:11px}
+#slide .shlist.t-lg .sCard .ico{width:29px;height:29px}
+#slide .shlist.t-lg .sCard .ico svg{width:16px;height:16px}
+#slide .shlist.t-lg .sCard .snom{font-size:15.5px}
+#slide .shlist.t-lg .sCard .sqty{font-size:12px}
+#slide .shlist.t-lg .sCard .sval .snum{font-size:20px}
+#slide .shlist.t-lg .sCard .sval .savg{font-size:11.5px}
 #slide .sfoot{position:absolute;bottom:22px;left:40px;right:40px;display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
 
 @media print{
@@ -829,21 +846,35 @@ const GRUPO_IZQ = ['Hacienda','Insumos agrícolas','Labores y mano de obra'];
 
 function construirMitad(contEl, rows, den){
   const W = contEl.clientWidth || 740;
-  const rowH = 57;
-  const cardW = Math.min(320, W*0.62);
+  const n = Math.max(1, rows.length);
+  // Alto real disponible dentro del panel (mide el DOM en vez de asumir un valor fijo,
+  // para nunca recortar ítems) y tamaño "ideal" de fila según cuántos ítems hay (si hay
+  // pocos, las tarjetas y la letra crecen para aprovechar el espacio).
+  const panel = contEl.parentElement;
+  const eje = panel ? panel.querySelector('.shaxis') : null;
+  const panelH = panel ? panel.clientHeight : 600;
+  const ejeH = eje ? eje.offsetHeight + 6 : 0;
+  const availH = Math.max(120, panelH - ejeH - 16);
+  const idealRowH = n<=5 ? 96 : n<=7 ? 75 : n<=9 ? 63 : 55;
+  const rowH = Math.max(38, Math.min(idealRowH, availH/n));
+  const tier = rowH>=82 ? 'lg' : rowH>=62 ? 'md' : 'sm';
+  contEl.className = 'shlist t-'+tier;
+  const cardWMax = tier==='lg' ? 380 : tier==='md' ? 345 : 320;
+  const cardWRatio = tier==='lg' ? 0.74 : tier==='md' ? 0.67 : 0.62;
+  const cardW = Math.min(cardWMax, W*cardWRatio);
   const centerPx = W/2;
-  contEl.style.height = (rows.length*rowH)+'px';
+  contEl.style.height = (n*rowH)+'px';
   let html = `<div class="sSpine"></div>`;
   rows.forEach((r,idx)=>{
     const dif = r.r.dif;
     const pctRaw = dif==null ? 0 : Math.max(-ESCALA, Math.min(ESCALA, dif*100));
     const pct = (pctRaw+ESCALA)/(2*ESCALA)*100;
     const dotPx = Math.max(0, Math.min(W, (pct/100)*W));
-    const cardTop = idx*rowH + 18;
+    const cardTop = idx*rowH + rowH*0.3;
     const sign = dif==null ? 'na' : (dif>=0 ? 'pos':'neg');
     const cardCenterPx = Math.max(cardW/2, Math.min(W-cardW/2, dotPx));
     const cardLeftPx = cardCenterPx - cardW/2;
-    const lineY = cardTop - 10;
+    const lineY = cardTop - rowH*0.175;
     const lo = Math.min(centerPx,dotPx), hi = Math.max(centerPx,dotPx);
     const elbow = Math.abs(cardCenterPx-dotPx) > 1
       ? `<div class="sElbow ${sign}" style="left:${Math.min(dotPx,cardCenterPx)}px;width:${Math.abs(cardCenterPx-dotPx)}px;top:${cardTop-1}px"></div>`
