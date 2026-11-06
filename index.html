@@ -668,8 +668,8 @@ function lblMes(k){ const [y,m]=M[k].split('-'); return MES[+m-1]+'-'+y.slice(2)
 function lblMesLargo(k){ const [y,m]=M[k].split('-'); return MES[+m-1]+' '+y; }
 function lblMesCap(k){ const s=lblMesLargo(k); return s.charAt(0).toUpperCase()+s.slice(1); }
 
-function filas(){
-  const den = DENS.find(d=>d.id===st.den);
+function filas(denOverride){
+  const den = denOverride || DENS.find(d=>d.id===st.den);
   const permitidos = REF_ITEMS[den.id];
   const out=[];
   GRUPOS.forEach((g,gi)=>{
@@ -866,32 +866,63 @@ function construirMitad(contEl, rows, den){
 
 function construirSlide(){
   const den = DENS.find(d=>d.id===st.den);
-  const data = filas();
-  document.getElementById('srefTxt').textContent =
-    `${den.n} · ${fmt((den.t==='serie'?col(den.i):null)[st.sel])} ${den.u}`;
 
-  const izqRows = [], derRows = [];
-  data.forEach(gr=>{ (GRUPO_IZQ.includes(gr.g) ? izqRows : derRows).push(...gr.rows); });
-  ESCALA = escalaFor([...izqRows, ...derRows]); // misma escala para las dos columnas del export
+  if(den.inv){
+    // Ternero y Vaquillona (granos/leche): la imagen siempre muestra las DOS referencias
+    // juntas, una por columna, sin importar cuál esté elegida en el filtro de la pantalla.
+    const denTer = DENS.find(d=>d.id==='14'), denVaq = DENS.find(d=>d.id==='33');
+    const rowsTer = filas(denTer).flatMap(gr=>gr.rows);
+    const rowsVaq = filas(denVaq).flatMap(gr=>gr.rows);
+    document.getElementById('srefTxt').textContent =
+      `${denTer.n} · ${fmt(col(denTer.i)[st.sel])} ${denTer.u}   /   ${denVaq.n} · ${fmt(col(denVaq.i)[st.sel])} ${denVaq.u}`;
+    ESCALA = escalaFor([...rowsTer, ...rowsVaq]);
 
-  const ejeHtml = `
-    <div class="shaxis">
-      <div class="shaxLbl"><span class="l">Más barato</span><span class="m">Promedio histórico</span><span class="r">Más caro</span></div>
-      <div class="shaxBar"></div>
-      <div class="shaxTicks"><span>-${ESCALA}%</span><span>-${ESCALA/2}%</span><span>0</span><span>+${ESCALA/2}%</span><span>+${ESCALA}%</span></div>
-    </div>`;
-  document.getElementById('s2cols').innerHTML = `
-    <div class="shalf">
-      <div class="shtitle">Hacienda, insumos y labores</div>
-      <div class="shpanel">${ejeHtml}<div class="shlist" id="shlist1"></div></div>
-    </div>
-    <div class="shalf">
-      <div class="shtitle">Pasturas, bienes y tierra</div>
-      <div class="shpanel">${ejeHtml}<div class="shlist" id="shlist2"></div></div>
-    </div>`;
+    const ejeHtml = `
+      <div class="shaxis">
+        <div class="shaxLbl"><span class="l">Más barato</span><span class="m">Promedio histórico</span><span class="r">Más caro</span></div>
+        <div class="shaxBar"></div>
+        <div class="shaxTicks"><span>-${ESCALA}%</span><span>-${ESCALA/2}%</span><span>0</span><span>+${ESCALA/2}%</span><span>+${ESCALA}%</span></div>
+      </div>`;
+    document.getElementById('s2cols').innerHTML = `
+      <div class="shalf">
+        <div class="shtitle">${denTer.n}</div>
+        <div class="shpanel">${ejeHtml}<div class="shlist" id="shlist1"></div></div>
+      </div>
+      <div class="shalf">
+        <div class="shtitle">${denVaq.n}</div>
+        <div class="shpanel">${ejeHtml}<div class="shlist" id="shlist2"></div></div>
+      </div>`;
 
-  construirMitad(document.getElementById('shlist1'), izqRows, den);
-  construirMitad(document.getElementById('shlist2'), derRows, den);
+    construirMitad(document.getElementById('shlist1'), rowsTer, denTer);
+    construirMitad(document.getElementById('shlist2'), rowsVaq, denVaq);
+  } else {
+    const data = filas();
+    document.getElementById('srefTxt').textContent =
+      `${den.n} · ${fmt((den.t==='serie'?col(den.i):null)[st.sel])} ${den.u}`;
+
+    const izqRows = [], derRows = [];
+    data.forEach(gr=>{ (GRUPO_IZQ.includes(gr.g) ? izqRows : derRows).push(...gr.rows); });
+    ESCALA = escalaFor([...izqRows, ...derRows]); // misma escala para las dos columnas del export
+
+    const ejeHtml = `
+      <div class="shaxis">
+        <div class="shaxLbl"><span class="l">Más barato</span><span class="m">Promedio histórico</span><span class="r">Más caro</span></div>
+        <div class="shaxBar"></div>
+        <div class="shaxTicks"><span>-${ESCALA}%</span><span>-${ESCALA/2}%</span><span>0</span><span>+${ESCALA/2}%</span><span>+${ESCALA}%</span></div>
+      </div>`;
+    document.getElementById('s2cols').innerHTML = `
+      <div class="shalf">
+        <div class="shtitle">Hacienda, insumos y labores</div>
+        <div class="shpanel">${ejeHtml}<div class="shlist" id="shlist1"></div></div>
+      </div>
+      <div class="shalf">
+        <div class="shtitle">Pasturas, bienes y tierra</div>
+        <div class="shpanel">${ejeHtml}<div class="shlist" id="shlist2"></div></div>
+      </div>`;
+
+    construirMitad(document.getElementById('shlist1'), izqRows, den);
+    construirMitad(document.getElementById('shlist2'), derRows, den);
+  }
 
   document.getElementById('sfecha').textContent = lblMesCap(st.sel);
 }
