@@ -876,11 +876,27 @@ document.getElementById('btnPrint').onclick = async () => {
     construirSlide();
     const el = document.getElementById('slide');
     const canvas = await html2canvas(el, {scale:2, backgroundColor:'#ffffff', width:1600, height:900});
-    const a = document.createElement('a');
-    a.download = 'semaforo-precios.png';
-    a.href = canvas.toDataURL('image/png');
-    a.click();
-  } finally {
+    canvas.toBlob((blob) => {
+      btn.disabled = false; btn.innerHTML = original;
+      if(!blob) return;
+      const url = URL.createObjectURL(blob);
+      const esIOS = /iP(hone|ad|od)/.test(navigator.userAgent);
+      if(esIOS){
+        // Safari de iOS no dispara descargas programaticas de forma confiable (incluso con
+        // blobs): abrimos la imagen en una pestaña nueva para que la guarden con "mantener
+        // presionado > Guardar imagen".
+        window.open(url, '_blank');
+      } else {
+        const a = document.createElement('a');
+        a.download = 'semaforo-precios.png';
+        a.href = url;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+    }, 'image/png');
+  } catch(e) {
     btn.disabled = false; btn.innerHTML = original;
   }
 };
