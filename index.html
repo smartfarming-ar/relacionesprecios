@@ -87,9 +87,9 @@ select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);
 .elbow{position:absolute;height:1.4px;z-index:1;border-radius:2px;background:var(--line)}
 .elbow.pos{background:var(--rojo2)}
 .elbow.neg{background:var(--verde2)}
-.tag{position:absolute;transform:translate(-50%,-100%);font-size:10.5px;font-weight:700;white-space:nowrap;padding:0 2px;color:var(--muted)}
+.tag{position:absolute;transform:translateY(-50%);font-size:10.5px;font-weight:700;white-space:nowrap;padding:0 2px;color:var(--muted)}
 .tag.pos{color:var(--rojo3)}
-.tag.neg{color:var(--verde3)}
+.tag.neg{color:var(--verde3);transform:translate(-100%,-50%)}
 .dot{position:absolute;width:7px;height:7px;border-radius:50%;transform:translate(-50%,-50%);z-index:2;border:2px solid var(--bg);background:var(--muted)}
 .dot.pos{background:var(--rojo3)}
 .dot.neg{background:var(--verde3)}
@@ -171,8 +171,8 @@ select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);
 #slide .sElbow.pos{background:var(--rojo2)} #slide .sElbow.neg{background:var(--verde2)}
 #slide .sDot{position:absolute;width:7px;height:7px;border-radius:50%;transform:translate(-50%,-50%);border:1.6px solid var(--bg)}
 #slide .sDot.pos{background:var(--rojo3)} #slide .sDot.neg{background:var(--verde3)}
-#slide .sTag{position:absolute;transform:translate(-50%,-100%);font-size:9px;font-weight:700;white-space:nowrap;line-height:1.2}
-#slide .sTag.pos{color:var(--rojo3)} #slide .sTag.neg{color:var(--verde3)}
+#slide .sTag{position:absolute;transform:translateY(-50%);font-size:9px;font-weight:700;white-space:nowrap;line-height:1.2}
+#slide .sTag.pos{color:var(--rojo3)} #slide .sTag.neg{color:var(--verde3);transform:translate(-100%,-50%)}
 #slide .sCardPos{position:absolute;top:0}
 #slide .sCard{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(31,42,36,.10);border-radius:10px;padding:3px 10px;width:100%;box-shadow:0 1px 2px rgba(31,42,36,.06)}
 #slide .sCard .ico{flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
@@ -740,7 +740,7 @@ function renderDesktop(list, rows, den, unidadTxt, W){
     // la TARJETA se recorta para entrar en pantalla; el punto no se mueve
     const cardCenterPx = Math.max(cardW/2, Math.min(W-cardW/2, dotPx));
     const cardLeftPx = cardCenterPx - cardW/2;
-    const lineY = cardTop - 6;
+    const lineY = cardTop - 14;
     const lo = Math.min(centerPx, dotPx), hi = Math.max(centerPx, dotPx);
     const tActual = r.r.cur==null ? 'Sin dato para este mes' : `Hacen falta ${fmt(r.r.cur)} ${unidadTxt} para comprar 1 ${r.it[1]}`;
     // codo que conecta el punto real con la tarjeta, solo si tuvo que correrse
@@ -751,7 +751,7 @@ function renderDesktop(list, rows, den, unidadTxt, W){
       <div class="hconn ${sign}" style="left:${lo}px;width:${hi-lo}px;top:${lineY}px"></div>
       ${elbow}
       <div class="dot ${sign}" style="left:${dotPx}px;top:${lineY}px"></div>
-      <div class="tag ${sign}" style="left:${dotPx}px;top:${lineY-6}px">${dif!=null?fmtPct(dif):'s/d'}</div>
+      <div class="tag ${sign}" style="left:${dotPx + (sign==='neg' ? -9.5 : 9.5)}px;top:${lineY}px">${dif!=null?fmtPct(dif):'s/d'}</div>
       <div class="cardpos" style="top:${cardTop}px;left:${cardLeftPx}px;width:${cardW}px">
         <div class="card" data-key="${r.key}" title="${tActual}">
           <span class="ico">${icono(r.g)}</span>
@@ -810,7 +810,7 @@ function construirMitad(contEl, rows, den){
     const sign = dif==null ? 'na' : (dif>=0 ? 'pos':'neg');
     const cardCenterPx = Math.max(cardW/2, Math.min(W-cardW/2, dotPx));
     const cardLeftPx = cardCenterPx - cardW/2;
-    const lineY = cardTop - 5;
+    const lineY = cardTop - 10;
     const lo = Math.min(centerPx,dotPx), hi = Math.max(centerPx,dotPx);
     const elbow = Math.abs(cardCenterPx-dotPx) > 1
       ? `<div class="sElbow ${sign}" style="left:${Math.min(dotPx,cardCenterPx)}px;width:${Math.abs(cardCenterPx-dotPx)}px;top:${cardTop-1}px"></div>`
@@ -819,7 +819,7 @@ function construirMitad(contEl, rows, den){
       <div class="sConn ${sign}" style="left:${lo}px;width:${hi-lo}px;top:${lineY}px"></div>
       ${elbow}
       <div class="sDot ${sign}" style="left:${dotPx}px;top:${lineY}px"></div>
-      <div class="sTag ${sign}" style="left:${dotPx}px;top:${lineY-5}px">${dif!=null?fmtPct(dif):'s/d'}</div>
+      <div class="sTag ${sign}" style="left:${dotPx + (sign==='neg' ? -8 : 8)}px;top:${lineY}px">${dif!=null?fmtPct(dif):'s/d'}</div>
       <div class="sCardPos" style="top:${cardTop}px;left:${cardLeftPx}px;width:${cardW}px">
         <div class="sCard">
           <span class="ico">${icono(r.g)}</span>
