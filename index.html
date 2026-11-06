@@ -938,6 +938,10 @@ document.getElementById('btnPrint').onclick = async () => {
       btn.disabled = false; btn.innerHTML = original;
       if(!blob) return;
       const url = URL.createObjectURL(blob);
+      const den = DENS.find(d=>d.id===st.den);
+      const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+        .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+      const nombreArchivo = `semaforo-precios-${den.inv ? 'ternero-vaquillona' : slug(den.n)}.png`;
       const esIOS = /iP(hone|ad|od)/.test(navigator.userAgent);
       if(esIOS){
         // Safari de iOS no dispara descargas programaticas de forma confiable (incluso con
@@ -946,7 +950,7 @@ document.getElementById('btnPrint').onclick = async () => {
         window.open(url, '_blank');
       } else {
         const a = document.createElement('a');
-        a.download = 'semaforo-precios.png';
+        a.download = nombreArchivo;
         a.href = url;
         document.body.appendChild(a);
         a.click();
